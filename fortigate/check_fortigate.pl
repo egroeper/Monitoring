@@ -1134,7 +1134,14 @@ sub get_fmg_device_state {
             push (@fmg_device_down, ($fmg_device_name.'/'.$fmg_device_adom));
          }
          if ($fmg_device_config_state eq '2') {
-            push (@fmg_device_config, ($fmg_device_name.'/'.$fmg_device_adom));
+
+            if (defined($blacklist) and length($blacklist)) {
+              if ($fmg_device_name !~ $blacklist) {
+                 push (@fmg_device_config, ($fmg_device_name.'/'.$fmg_device_adom));
+              }
+            } else {
+              push (@fmg_device_config, ($fmg_device_name.'/'.$fmg_device_adom));
+            }
          }
          $k++;
       }
